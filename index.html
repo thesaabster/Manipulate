@@ -27,7 +27,6 @@
   <p id="message" role="status"></p>
 
   <div id="solve" hidden>
-    <h2>Step 3: Solve it!</h2>
     <div class="breakdown-controls">
       Break the containers down by:
       <button data-bd="none" class="active">Whole</button>
@@ -35,7 +34,11 @@
       <button data-bd="5">10s &amp; 5s</button>
       <button data-bd="1">10s, 5s &amp; 1s</button>
     </div>
-    <div id="breakdown"></div>
+    <div id="breakdown-row" class="work-row">
+      <h2>Break it down</h2>
+      <div id="breakdown"></div>
+      <div id="sum-breakdown"></div>
+    </div>
     <h3>Number line</h3>
     <div id="numberline"></div>
     <div id="subvisual" hidden>
