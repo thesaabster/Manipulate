@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manipulate – Learn Addition &amp; Subtraction</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Manipulate</h1>
+  <div class="modes" role="group" aria-label="Operation">
+    <button id="mode-add" class="active">➕ Addition</button>
+    <button id="mode-sub">➖ Subtraction</button>
+  </div>
+  <button id="reset">Start over</button>
+</header>
+
+<section id="palette">
+  <h2>Manipulatives <small>(drag into a container, or tap one to add it)</small></h2>
+  <div id="tokens"></div>
+</section>
+
+<section id="steps">
+  <h2 id="step1-title">Step 1: Fill the first container</h2>
+  <div id="containers"></div>
+  <p id="message" role="status"></p>
+
+  <div id="solve" hidden>
+    <div class="breakdown-controls">
+      Break the containers down by:
+      <button data-bd="none" class="active">Whole</button>
+      <button data-bd="10">10s</button>
+      <button data-bd="5">10s &amp; 5s</button>
+      <button data-bd="1">10s, 5s &amp; 1s</button>
+    </div>
+    <div id="breakdown-row" class="work-row">
+      <h2>Break it down</h2>
+      <div id="breakdown"></div>
+      <div id="sum-breakdown"></div>
+    </div>
+    <h3>Number line</h3>
+    <div id="numberline"></div>
+    <div id="subvisual" hidden>
+      <h3>Take away</h3>
+      <div id="takeaway"></div>
+    </div>
+    <div class="answer">
+      <span id="equation"></span>
+      <input id="answer" type="number" inputmode="numeric" aria-label="Your answer">
+      <button id="check">Check</button>
+      <span id="feedback" role="status"></span>
+    </div>
+  </div>
+</section>
+<script src="app.js"></script>
+</body>
+</html>
