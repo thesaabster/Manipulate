@@ -51,3 +51,32 @@ section{padding:.5rem 1rem}
 #feedback{margin-left:.6rem;font-weight:bold}
 #feedback.ok{color:#29a36a}#feedback.no{color:#d33}
 #message{min-height:1.4em;color:#b00}
+.free-controls,.free-workspace{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+#free-colors,#free-palette{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.free-color,.free-color.active{background:#c83b37;border-color:#c83b37;color:#fff}
+.free-color.blue,.free-color.blue.active{background:#2769b5;border-color:#2769b5}
+.free-color.green,.free-color.green.active{background:#22804b;border-color:#22804b}
+.free-color.active{outline:3px solid #223;outline-offset:2px}
+.free-source,.free-piece-button,.free-removed-piece{--piece-color:#c83b37;color:#fff}
+.free-source.blue,.free-piece-button.blue,.free-removed-piece.blue{--piece-color:#2769b5}
+.free-source.green,.free-piece-button.green,.free-removed-piece.green{--piece-color:#22804b}
+.free-source{background:var(--piece-color);border-color:var(--piece-color);min-width:3rem;touch-action:none;user-select:none;cursor:grab}
+.free-jar,.free-removed{background:#fff;border:3px solid #8aa;border-radius:20px;padding:1rem;flex:1 1 320px;min-height:180px}
+.free-jar{border-width:5px;border-top-width:3px}
+.free-removed{border-style:dashed}
+.free-jar h3,.free-removed h3{margin-top:0}
+#free-pieces,#free-removed-pieces{display:flex;align-items:flex-start;gap:.5rem;flex-wrap:wrap}
+.free-piece{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.free-piece-button{padding:.2rem;background:#fff;border-color:var(--piece-color);touch-action:none;user-select:none;cursor:grab}
+.free-piece-button.dragging,.free-source.dragging{opacity:.5}
+.free-split{font-size:.8rem;padding:.1rem .4rem}
+.free-group{display:inline-flex;flex-wrap:wrap;gap:2px;padding:3px;border:1px solid var(--piece-color);border-radius:4px;vertical-align:top}
+.free-group-label{display:block;width:100%;font-size:.7rem;line-height:1;color:#223;text-align:left;font-weight:bold}
+.free-unit{display:inline-block;width:8px;height:8px;padding:0;background:var(--piece-color);border:0;border-radius:50%}
+.group-5{width:38px}
+.group-10{width:86px}
+.group-100{width:278px}
+.free-removed-piece{display:inline-block;opacity:.65;text-decoration:line-through}
+.free-practice{background:#fff;padding:1rem;border-radius:12px}
+.free-practice h3{margin-top:0}
+.free-practice input{width:5em;font:inherit}

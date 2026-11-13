@@ -12,6 +12,7 @@
   <div class="modes" role="group" aria-label="Operation">
     <button id="mode-add" class="active">➕ Addition</button>
     <button id="mode-sub">➖ Subtraction</button>
+    <button id="mode-free">🫙 Free mode</button>
   </div>
   <button id="reset">Start over</button>
 </header>
@@ -53,6 +54,41 @@
     </div>
   </div>
 </section>
+<section id="free-mode" hidden>
+  <h2>Explore the jar</h2>
+  <p>Choose a color, then drag a piece into the jar (or tap it). Drag a piece out, or tap it, to take it away. Split a group to take away smaller pieces.</p>
+  <div class="free-controls">
+    <div id="free-colors" role="group" aria-label="Piece color"></div>
+    <div id="free-palette" role="group" aria-label="Pieces to add"></div>
+  </div>
+  <div class="free-workspace">
+    <div id="free-jar" class="free-jar" aria-label="Big jar">
+      <h3>Big jar</h3>
+      <p id="free-total" aria-live="polite"></p>
+      <div id="free-pieces"></div>
+      <p id="free-empty">The jar is empty. Add a piece!</p>
+    </div>
+    <div class="free-removed">
+      <h3>Taken away</h3>
+      <p>Pieces removed from the jar appear here in the selected color.</p>
+      <div id="free-removed-pieces"></div>
+      <p id="free-removed-total"></p>
+    </div>
+  </div>
+  <div class="free-practice">
+    <h3>Practice</h3>
+    <p>Start a question or explore freely. Starting a question clears the jar.</p>
+    <button id="free-add-question">Addition question</button>
+    <button id="free-sub-question">Subtraction question</button>
+    <div id="free-question" hidden>
+      <p id="free-prompt"></p>
+      <label> Your answer: <input id="free-answer" type="number" inputmode="numeric"></label>
+      <button id="free-check">Check</button>
+      <p id="free-feedback" role="status"></p>
+    </div>
+  </div>
+</section>
 <script src="app.js"></script>
+<script src="free.js"></script>
 </body>
 </html>

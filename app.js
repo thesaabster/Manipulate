@@ -320,9 +320,19 @@ function init() {
     });
     tokens.appendChild(t);
   });
-  document.getElementById('mode-add').onclick = () => reset('add');
-  document.getElementById('mode-sub').onclick = () => reset('sub');
-  document.getElementById('reset').onclick = () => reset();
+  function showExisting(mode) {
+    document.getElementById('free-mode').hidden = true;
+    document.getElementById('palette').hidden = false;
+    document.getElementById('steps').hidden = false;
+    document.getElementById('mode-free').classList.remove('active');
+    reset(mode);
+  }
+  document.getElementById('mode-add').onclick = () => showExisting('add');
+  document.getElementById('mode-sub').onclick = () => showExisting('sub');
+  document.getElementById('reset').onclick = () => {
+    if (!document.getElementById('free-mode').hidden) resetFree();
+    else reset();
+  };
   document.querySelectorAll('[data-bd]').forEach((btn) => btn.addEventListener('click', () => {
     state.breakdown = btn.dataset.bd;
     renderSolve();
