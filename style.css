@@ -46,6 +46,19 @@ section{padding:.5rem 1rem}
 .cell.gone::after{content:"✕";position:absolute;inset:0;text-align:center;line-height:18px;color:#d33;font-size:.8rem}
 .tens{display:inline-block;margin:4px 10px 4px 0;padding:2px;border:1px solid #9bd;border-radius:4px;max-width:112px}
 #numberline{overflow-x:auto;background:#fff;border-radius:12px;padding:.3rem}
+.numberline-setup,.numberline-controls{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.numberline-setup{padding:.8rem;background:#fff;border-radius:12px}
+.numberline-setup fieldset{display:flex;gap:.6rem;align-items:center;border:1px solid #9aa;border-radius:8px}
+.numberline-setup label{display:flex;align-items:center;gap:.25rem}
+.numberline-setup input[type="number"],.numberline-controls input{width:7em;font:inherit}
+#numberline-message{flex-basis:100%;margin:.2rem 0;color:#b00}
+#numberline-practice{margin-top:1rem}
+.numberline-current{font-size:1.3rem;font-weight:bold}
+.numberline-display{overflow-x:auto;background:#fff;border-radius:12px;padding:.5rem}
+.numberline-display svg{display:block;max-width:none}
+.numberline-steps{padding-left:2rem}
+.numberline-steps li{margin:.25rem 0}
+.numberline-steps .passed-target,.numberline-current.passed-target{color:#d33}
 .answer{margin:1rem 0;font-size:1.4rem}
 .answer input{width:5em;font-size:1.4rem}
 #feedback{margin-left:.6rem;font-weight:bold}

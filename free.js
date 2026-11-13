@@ -151,9 +151,11 @@ function startFreeQuestion(operation) {
 freeEl('mode-free').onclick = () => {
   freeEl('palette').hidden = true;
   freeEl('steps').hidden = true;
+  freeEl('number-line-mode').hidden = true;
   freeEl('free-mode').hidden = false;
   freeEl('mode-add').classList.remove('active');
   freeEl('mode-sub').classList.remove('active');
+  freeEl('mode-number-line').classList.remove('active');
   freeEl('mode-free').classList.add('active');
   resetFree();
 };
