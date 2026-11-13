@@ -9,10 +9,11 @@
 <body>
 <header>
   <h1>Manipulate</h1>
-  <div class="modes" role="group" aria-label="Operation">
+  <div class="modes" role="group" aria-label="Practice mode">
     <button id="mode-add" class="active">➕ Addition</button>
     <button id="mode-sub">➖ Subtraction</button>
     <button id="mode-free">🫙 Free mode</button>
+    <button id="mode-number-line">↔️ Number Line</button>
   </div>
   <button id="reset">Start over</button>
 </header>
@@ -51,6 +52,33 @@
       <input id="answer" type="number" inputmode="numeric" aria-label="Your answer">
       <button id="check">Check</button>
       <span id="feedback" role="status"></span>
+    </div>
+  </div>
+</section>
+<section id="number-line-mode" hidden>
+  <h2>Practice on a number line</h2>
+  <p>Choose an operation and starting number. Add a target if you have one in mind.</p>
+  <div class="numberline-setup">
+    <fieldset>
+      <legend>Operation</legend>
+      <label><input type="radio" name="numberline-operation" value="add" checked> Addition</label>
+      <label><input type="radio" name="numberline-operation" value="sub"> Subtraction</label>
+    </fieldset>
+    <label for="numberline-start">Starting number</label>
+    <input id="numberline-start" type="number" value="0" step="1">
+    <label for="numberline-target">Target number (optional)</label>
+    <input id="numberline-target" type="number" step="1">
+    <button id="numberline-begin">Start number line</button>
+    <p id="numberline-message" role="status" aria-live="polite"></p>
+  </div>
+  <div id="numberline-practice" hidden>
+    <p id="numberline-current" class="numberline-current" aria-live="polite"></p>
+    <div id="numberline-display" class="numberline-display"></div>
+    <ol id="numberline-steps" class="numberline-steps" aria-label="Number line steps"></ol>
+    <div class="numberline-controls">
+      <label for="numberline-step">Amount to <span id="numberline-action">add</span></label>
+      <input id="numberline-step" type="number" min="1" step="1">
+      <button id="numberline-progress">+ Add</button>
     </div>
   </div>
 </section>

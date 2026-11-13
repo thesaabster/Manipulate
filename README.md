@@ -8,6 +8,7 @@ Open `index.html` in a browser — no build step.
 - For addition, fill the sum container and watch its progress highlight the included pieces in the breakdown row.
 - For subtraction, fill a second container and break both numbers down by 10s / 5s / 1s.
 - The addition number line keeps the result as `?` until the sum container is complete; subtraction also shows a "cross out" visual.
+- Number Line mode lets you choose addition or subtraction, enter a starting number and optional target, then add or subtract one hop at a time. The line grows with each hop and highlights steps that pass the target.
 - Free mode offers one jar for exploring with red, blue, and green pieces. Drag pieces with a mouse or touch, or tap a piece to add or remove it. Groups of 100 contain ten 10s; each 10 contains two 5s, and each 5 contains five 1s. Use Split to take away smaller groups.
 - Removed pieces are displayed outside the jar in the currently selected color, showing what was taken away. The jar total updates as pieces are added or removed.
 - Free mode's addition questions ask for the two numbers in red and blue. For subtraction, add the first number in red, select blue, and take away the second number; then check your answer. Starting a question or using Start over clears the jar.

@@ -3,6 +3,138 @@ const DENOMS = [1, 5, 10, 20, 50, 100];
 const sum = (arr) => arr.reduce((a, b) => a + b, 0);
 
 const state = {};
+const numberLinePractice = {
+  active: false,
+  operation: 'add',
+  start: 0,
+  target: null,
+  steps: []
+};
+
+function resetNumberLine() {
+  numberLinePractice.active = false;
+  numberLinePractice.steps = [];
+  document.getElementById('numberline-practice').hidden = true;
+  document.getElementById('numberline-step').value = '';
+  document.getElementById('numberline-message').textContent = '';
+}
+
+function svgElement(name, attrs, text) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+function renderNumberLinePractice() {
+  const { operation, start, target, steps } = numberLinePractice;
+  const adding = operation === 'add';
+  const stops = [start];
+  steps.forEach((step) => stops.push(step.to));
+  const current = stops[stops.length - 1];
+  const low = Math.min(...stops, ...(target === null ? [] : [target]));
+  const high = Math.max(...stops, ...(target === null ? [] : [target]));
+  const span = Math.max(high - low, 1);
+  const padding = Math.max(2, span * 0.05);
+  const magnitude = 10 ** Math.floor(Math.log10(span / 20));
+  const tickSize = span <= 20 ? 1 : span <= 100 ? 5 : Math.ceil(span / (100 * magnitude)) * magnitude;
+  const viewLow = Math.floor((low - padding) / tickSize) * tickSize;
+  const viewHigh = Math.ceil((high + padding) / tickSize) * tickSize;
+  const width = Math.max(600, Math.min(6000, (viewHigh - viewLow) * 6 + 80));
+  const height = 150;
+  const axisY = 100;
+  const x = (n) => 40 + ((n - viewLow) / (viewHigh - viewLow)) * (width - 80);
+  const svg = svgElement('svg', {
+    width, height, viewBox: `0 0 ${width} ${height}`, role: 'img',
+    'aria-label': `Number line from ${start} to ${current}` +
+      (target === null ? '' : ` with target ${target}`)
+  });
+  svg.appendChild(svgElement('line', {
+    x1: x(viewLow), y1: axisY, x2: x(viewHigh), y2: axisY,
+    stroke: '#334', 'stroke-width': 2
+  }));
+
+  const firstTick = Math.ceil(viewLow / tickSize) * tickSize;
+  for (let n = firstTick; n <= viewHigh; n += tickSize) {
+    svg.appendChild(svgElement('line', {
+      x1: x(n), y1: axisY - 5, x2: x(n), y2: axisY + 5, stroke: '#667'
+    }));
+    if (span <= 20 || n % (tickSize * 2) === 0) {
+      svg.appendChild(svgElement('text', {
+        x: x(n), y: axisY + 22, 'font-size': 12, 'text-anchor': 'middle', fill: '#334'
+      }, String(n)));
+    }
+  }
+
+  if (target !== null) {
+    svg.appendChild(svgElement('line', {
+      x1: x(target), y1: 27, x2: x(target), y2: axisY + 6,
+      stroke: '#e0a000', 'stroke-width': 2, 'stroke-dasharray': '5 4'
+    }));
+    svg.appendChild(svgElement('text', {
+      x: x(target), y: 18, 'font-size': 13, 'font-weight': 'bold',
+      'text-anchor': 'middle', fill: '#8a6100'
+    }, `Target ${target}`));
+  }
+
+  steps.forEach((step, index) => {
+    const x1 = x(step.from), x2 = x(step.to), mid = (x1 + x2) / 2;
+    const passed = target !== null &&
+      (adding ? step.to > target : step.to < target);
+    const color = passed ? '#d33' : ['#29a36a', '#f3a712', '#2a9dd1'][index % 3];
+    svg.appendChild(svgElement('path', {
+      d: `M${x1} ${axisY} Q${mid} ${axisY - 48} ${x2} ${axisY}`,
+      fill: 'none', stroke: color, 'stroke-width': 2.5
+    }));
+    svg.appendChild(svgElement('text', {
+      x: mid, y: axisY - 30, 'font-size': 12, 'text-anchor': 'middle', fill: color
+    }, `${adding ? '+' : '−'}${step.amount}`));
+  });
+
+  stops.forEach((n, index) => {
+    const endpoint = index === 0 || index === stops.length - 1;
+    if (!endpoint) {
+      svg.appendChild(svgElement('line', {
+        x1: x(n), y1: axisY - 5, x2: x(n), y2: axisY + 5, stroke: '#334'
+      }));
+    } else {
+      svg.appendChild(svgElement('circle', {
+        cx: x(n), cy: axisY, r: 6,
+        fill: index === stops.length - 1 && target !== null &&
+          (adding ? current > target : current < target) ? '#d33' : '#3b6fd4'
+      }));
+    }
+    svg.appendChild(svgElement('text', {
+      x: x(n), y: axisY + 40, 'font-size': 13, 'font-weight': 'bold',
+      'text-anchor': 'middle', fill: '#223'
+    }, String(n)));
+  });
+
+  document.getElementById('numberline-display').replaceChildren(svg);
+  const currentLabel = document.getElementById('numberline-current');
+  currentLabel.classList.toggle('passed-target', target !== null &&
+    (adding ? current > target : current < target));
+  currentLabel.textContent = target === null
+    ? `Current number: ${current}`
+    : current === target
+      ? `Current number: ${current}. Target reached!`
+      : (adding ? current > target : current < target)
+        ? `Current number: ${current}. You passed the target by ${Math.abs(current - target)}.`
+        : `Current number: ${current}. ${Math.abs(current - target)} to go.`;
+
+  const list = document.getElementById('numberline-steps');
+  list.replaceChildren();
+  steps.forEach((step) => {
+    const item = document.createElement('li');
+    item.textContent = `${step.from} ${adding ? '+' : '−'} ${step.amount} = ${step.to}`;
+    if (target !== null && (adding ? step.to > target : step.to < target)) {
+      item.classList.add('passed-target');
+      item.textContent += ` (passed target ${target})`;
+    }
+    list.appendChild(item);
+  });
+}
+
 function reset(mode) {
   state.mode = mode || state.mode || 'add';
   state.boxes = [{ target: 0, items: [] }, { target: 0, items: [] }, { target: 0, items: [] }];
@@ -322,16 +454,83 @@ function init() {
   });
   function showExisting(mode) {
     document.getElementById('free-mode').hidden = true;
+    document.getElementById('number-line-mode').hidden = true;
     document.getElementById('palette').hidden = false;
     document.getElementById('steps').hidden = false;
     document.getElementById('mode-free').classList.remove('active');
+    document.getElementById('mode-number-line').classList.remove('active');
     reset(mode);
   }
   document.getElementById('mode-add').onclick = () => showExisting('add');
   document.getElementById('mode-sub').onclick = () => showExisting('sub');
+  document.getElementById('mode-number-line').onclick = () => {
+    document.getElementById('palette').hidden = true;
+    document.getElementById('steps').hidden = true;
+    document.getElementById('free-mode').hidden = true;
+    document.getElementById('number-line-mode').hidden = false;
+    document.getElementById('mode-add').classList.remove('active');
+    document.getElementById('mode-sub').classList.remove('active');
+    document.getElementById('mode-free').classList.remove('active');
+    document.getElementById('mode-number-line').classList.add('active');
+    resetNumberLine();
+  };
   document.getElementById('reset').onclick = () => {
     if (!document.getElementById('free-mode').hidden) resetFree();
+    else if (!document.getElementById('number-line-mode').hidden) resetNumberLine();
     else reset();
+  };
+  document.getElementById('numberline-begin').onclick = () => {
+    document.getElementById('numberline-practice').hidden = true;
+    const operation = document.querySelector('input[name="numberline-operation"]:checked').value;
+    const startInput = document.getElementById('numberline-start');
+    const targetInput = document.getElementById('numberline-target');
+    const start = startInput.valueAsNumber;
+    const target = targetInput.value.trim() === '' ? null : targetInput.valueAsNumber;
+    const message = document.getElementById('numberline-message');
+    if (!Number.isSafeInteger(start) || (target !== null && !Number.isSafeInteger(target))) {
+      message.textContent = 'Enter whole numbers for the start and target.';
+      return;
+    }
+    if (target !== null && (operation === 'add' ? target < start : target > start)) {
+      message.textContent = operation === 'add'
+        ? 'For addition, the target should be at or beyond the starting number.'
+        : 'For subtraction, the target should be at or below the starting number.';
+      return;
+    }
+    numberLinePractice.active = true;
+    numberLinePractice.operation = operation;
+    numberLinePractice.start = start;
+    numberLinePractice.target = target;
+    numberLinePractice.steps = [];
+    document.getElementById('numberline-practice').hidden = false;
+    document.getElementById('numberline-step').value = '';
+    document.getElementById('numberline-action').textContent = operation === 'add' ? 'add' : 'take away';
+    document.getElementById('numberline-progress').textContent = operation === 'add' ? '+ Add' : '− Subtract';
+    message.textContent = '';
+    renderNumberLinePractice();
+  };
+  document.getElementById('numberline-progress').onclick = () => {
+    if (!numberLinePractice.active) return;
+    const input = document.getElementById('numberline-step');
+    const amount = input.valueAsNumber;
+    const message = document.getElementById('numberline-message');
+    if (!Number.isSafeInteger(amount) || amount <= 0) {
+      message.textContent = 'Enter a positive whole number to continue.';
+      return;
+    }
+    const from = numberLinePractice.steps.length
+      ? numberLinePractice.steps[numberLinePractice.steps.length - 1].to
+      : numberLinePractice.start;
+    const direction = numberLinePractice.operation === 'add' ? 1 : -1;
+    const to = from + direction * amount;
+    if (!Number.isSafeInteger(to)) {
+      message.textContent = 'That number is too large to continue safely.';
+      return;
+    }
+    numberLinePractice.steps.push({ from, to, amount });
+    input.value = '';
+    message.textContent = '';
+    renderNumberLinePractice();
   };
   document.querySelectorAll('[data-bd]').forEach((btn) => btn.addEventListener('click', () => {
     state.breakdown = btn.dataset.bd;
