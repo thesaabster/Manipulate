@@ -53,6 +53,9 @@ section{padding:.5rem 1rem}
 #message{min-height:1.4em;color:#b00}
 .free-controls,.free-workspace{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
 #free-colors,#free-palette{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.free-color,.free-color.active{background:#c83b37;border-color:#c83b37;color:#fff}
+.free-color.blue,.free-color.blue.active{background:#2769b5;border-color:#2769b5}
+.free-color.green,.free-color.green.active{background:#22804b;border-color:#22804b}
 .free-color.active{outline:3px solid #223;outline-offset:2px}
 .free-source,.free-piece-button,.free-removed-piece{--piece-color:#c83b37;color:#fff}
 .free-source.blue,.free-piece-button.blue,.free-removed-piece.blue{--piece-color:#2769b5}
